@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-4a9b-8c7d-1e2f3a4b5c6d",
+		"name": "User Actions Log API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User Action Log",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\": \"a1b2c3d4-e5f6-7890-1234-567890abcdef\",\n    \"action_type\": \"USER_LOGIN\",\n    \"source_feature\": \"Authentication\",\n    \"target_entity_type\": \"SESSION\",\n    \"target_entity_id\": \"s-xyz-123\",\n    \"status\": \"SUCCESS\",\n    \"metadata\": {\n        \"ip_address\": \"192.168.1.100\",\n        \"user_agent\": \"PostmanRuntime/7.29.2\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/logs/createAction",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"logs",
+						"createAction"
+					]
+				},
+				"description": "Creates a new log entry for a user action."
+			},
+			"response": []
+		},
+		{
+			"name": "Get All User Action Logs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/logs/getAllActions",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"logs",
+						"getAllActions"
+					]
+				},
+				"description": "Retrieves a list of all user action logs."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Action Log by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/logs/getActionById/your-log-id-here",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"logs",
+						"getActionById",
+						"your-log-id-here"
+					]
+				},
+				"description": "Retrieves a single user action log by its unique ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Action Logs by User ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/logs/getActionsByUserId/a1b2c3d4-e5f6-7890-1234-567890abcdef",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"logs",
+						"getActionsByUserId",
+						"a1b2c3d4-e5f6-7890-1234-567890abcdef"
+					]
+				},
+				"description": "Retrieves all action logs associated with a specific user ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Action Log by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/logs/deleteActionById/your-log-id-here",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"logs",
+						"deleteActionById",
+						"your-log-id-here"
+					]
+				},
+				"description": "Deletes a single user action log by its unique ID."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All Action Logs",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/logs/deleteAllActions",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"logs",
+						"deleteAllActions"
+					]
+				},
+				"description": "Deletes all logs from the database. Use with caution."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		}
+	]
+}

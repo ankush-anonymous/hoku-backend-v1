@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "b2c3d4e5-f6a7-8901-2345-67890abcdef1",
+		"name": "Wardrobe Management API",
+		"description": "A collection to test the Wardrobe API endpoints based on the provided router.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Wardrobe",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\": \"{{userId}}\",\n    \"name\": \"Summer Collection\",\n    \"intent\": \"Casual wear for warm weather\",\n    \"lifestyle\": \"Active & Outdoors\",\n    \"negative_pref\": \"No heavy fabrics\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/v1/wardrobes/createWardrobe",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"wardrobes",
+						"createWardrobe"
+					]
+				},
+				"description": "Creates a new wardrobe for a user. Requires a `userId` variable."
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Wardrobes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/wardrobes/getAllWardrobes",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"wardrobes",
+						"getAllWardrobes"
+					]
+				},
+				"description": "Retrieves a list of all wardrobes in the system. (Admin access might be required)."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Wardrobe by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/wardrobes/getWardrobeById/{{wardrobeId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"wardrobes",
+						"getWardrobeById",
+						"{{wardrobeId}}"
+					]
+				},
+				"description": "Retrieves a single wardrobe by its UUID. Set the `wardrobeId` variable after creating a wardrobe."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Wardrobes by User ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/wardrobes/getWardrobesByUserId/{{userId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"wardrobes",
+						"getWardrobesByUserId",
+						"{{userId}}"
+					]
+				},
+				"description": "Retrieves all wardrobes belonging to a specific user. Requires a `userId` variable."
+			},
+			"response": []
+		},
+		{
+			"name": "Update Wardrobe by ID",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Summer Vacation Wardrobe\",\n    \"intent\": \"Light and airy clothes for a beach holiday\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/v1/wardrobes/updateWardrobeById/{{wardrobeId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"wardrobes",
+						"updateWardrobeById",
+						"{{wardrobeId}}"
+					]
+				},
+				"description": "Updates a wardrobe's information. Requires a `wardrobeId` variable."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Wardrobe by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/wardrobes/deleteWardrobeById/{{wardrobeId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"wardrobes",
+						"deleteWardrobeById",
+						"{{wardrobeId}}"
+					]
+				},
+				"description": "Deletes a wardrobe from the database. Requires a `wardrobeId` variable."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "9edcda86-138b-4cf4-88c2-5fe2a488797e",
+			"type": "string"
+		},
+		{
+			"key": "wardrobeId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

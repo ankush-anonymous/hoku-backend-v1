@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+		"name": "User Management API",
+		"description": "A collection to test the User API endpoints based on the provided router.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Jane Doe\",\n    \"email_id\": \"jane.doe@example.com\",\n    \"password\": \"password123\",\n    \"phone_number\": \"1234567890\",\n    \"gender\": \"female\",\n    \"date_of_birth\": \"1990-05-15\",\n    \"colour_tone\": \"Warm\",\n    \"undertone\": \"Yellow\",\n    \"body_type\": \"Ectomorph\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/v1/users/createUser",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"createUser"
+					]
+				},
+				"description": "Creates a new user. The `email_id` and `phone_number` should be unique."
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/users/getAllUsers",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"getAllUsers"
+					]
+				},
+				"description": "Retrieves a list of all active users."
+			},
+			"response": []
+		},
+		{
+			"name": "Get User by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/users/getUserById/{{userId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"getUserById",
+						"{{userId}}"
+					]
+				},
+				"description": "Retrieves a single user by their UUID. You'll need to set the `userId` variable in your Postman environment after creating a user."
+			},
+			"response": []
+		},
+		{
+			"name": "Get User by Email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/users/getUserByEmail/{{userEmail}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"getUserByEmail",
+						"{{userEmail}}"
+					]
+				},
+				"description": "Retrieves a single user by their email. Set the `userEmail` variable in your Postman environment."
+			},
+			"response": []
+		},
+		{
+			"name": "Update User by ID",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Jane Smith\",\n    \"phone_number\": \"0987654321\",\n    \"body_type\": \"Mesomorph\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/v1/users/updateUserById/{{userId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"updateUserById",
+						"{{userId}}"
+					]
+				},
+				"description": "Updates a user's information. You can include any subset of the available fields. Requires a `userId` variable."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User by ID (Soft)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/users/deleteUserById/{{userId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"deleteUserById",
+						"{{userId}}"
+					]
+				},
+				"description": "Performs a soft delete on a user, marking them as inactive. Requires a `userId` variable."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User by ID (Hard)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/users/hard-delete/{{userId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"hard-delete",
+						"{{userId}}"
+					]
+				},
+				"description": "Permanently deletes a user from the database. Requires a `userId` variable."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userEmail",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

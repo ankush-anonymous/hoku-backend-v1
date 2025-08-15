@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "c3d4e5f6-a7b8-9012-3456-7890abcdef12",
+		"name": "Dress Management API",
+		"description": "A collection to test all endpoints for the Dress API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Dress to Wardrobe",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"wardrobe_id\": \"{{wardrobeId}}\",\n    \"user_id\": \"{{userId}}\",\n    \"name\": \"Classic Blue T-Shirt\",\n    \"description\": \"A simple and versatile cotton t-shirt.\",\n    \"brand\": \"Basic Co.\",\n    \"size\": \"M\",\n    \"dress_type_id\": 1,\n    \"category_id\": 1,\n    \"style_tags\": [\"casual\", \"basic\", \"everyday\"],\n    \"material\": [\"cotton\"],\n    \"season_suitability\": [\"spring\", \"summer\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/v1/dresses/addDress",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dresses",
+						"addDress"
+					]
+				},
+				"description": "Creates a new dress and links it to a specific wardrobe (and the default). Set `userId` and `wardrobeId` variables first."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Dress By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/dresses/getDressById/{{dressId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dresses",
+						"getDressById",
+						"{{dressId}}"
+					]
+				},
+				"description": "Retrieves a single dress by its MongoDB ID. Set the `dressId` variable after creating a dress."
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Dresses for a User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/dresses/getDressesByUserId/{{userId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dresses",
+						"getDressesByUserId",
+						"{{userId}}"
+					]
+				},
+				"description": "Retrieves all dresses owned by a specific user. Requires the `userId` variable."
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Dresses in a Wardrobe",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/dresses/getDressesByWardrobeId/{{wardrobeId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dresses",
+						"getDressesByWardrobeId",
+						"{{wardrobeId}}"
+					]
+				},
+				"description": "Retrieves all dresses linked to a specific wardrobe. Requires the `wardrobeId` variable."
+			},
+			"response": []
+		},
+		{
+			"name": "Update Dress By ID",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"brand\": \"Premium Basics\",\n    \"is_favorite\": true,\n    \"user_context\": {\n        \"personal_rating\": 5,\n        \"notes\": \"This is my go-to shirt.\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/api/v1/dresses/updateDressById/{{dressId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dresses",
+						"updateDressById",
+						"{{dressId}}"
+					]
+				},
+				"description": "Updates a dress's information. Requires the `dressId` variable."
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Dress From Wardrobe",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/dresses/removeDressFromWardrobe/{{wardrobeId}}/{{dressId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dresses",
+						"removeDressFromWardrobe",
+						"{{wardrobeId}}",
+						"{{dressId}}"
+					]
+				},
+				"description": "Removes a dress from a specific wardrobe (but does not delete the dress itself). Requires `wardrobeId` and `dressId` variables."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Dress Permanently",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/api/v1/dresses/deleteDressById/{{dressId}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"dresses",
+						"deleteDressById",
+						"{{dressId}}"
+					]
+				},
+				"description": "Permanently deletes a dress from MongoDB and all associated links in PostgreSQL. Requires the `dressId` variable."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "your-user-uuid-here",
+			"type": "string"
+		},
+		{
+			"key": "wardrobeId",
+			"value": "your-wardrobe-uuid-here",
+			"type": "string"
+		},
+		{
+			"key": "dressId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
