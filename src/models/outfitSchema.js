@@ -9,7 +9,6 @@ const OutfitSchema = new mongoose.Schema({
     },
     wardrobe_id: {
         type: String, // UUID from your 'wardrobes' table
-        required: true,
         index: true
     },
 
@@ -40,10 +39,15 @@ const OutfitSchema = new mongoose.Schema({
         // The type of item this is within the outfit (e.g., "top", "shoes")
         // This links to the 'dress_types' table in PostgreSQL
         dress_type_id: {
-            type: Number,
+            type: String,
             required: true
         }
     }],
+
+styling_aesthetics: {
+type: [String], // e.g., ['minimalist', 'bohemian', 'edgy']
+default: []
+},
 
     // --- Creation Context ---
     composed_by: {
@@ -75,17 +79,15 @@ const OutfitSchema = new mongoose.Schema({
             default: []
         }
     },
-
-    // --- Dynamic Suitability (Links to PostgreSQL taxonomy tables) ---
-    occasion_ids: { type: [Number], default: [] },
-    weather_suitability_ids: { type: [Number], default: [] },
-    mood_ids: { type: [Number], default: [] },
-
     // --- User-Specific Context ---
     is_favorite: {
         type: Boolean,
         default: false,
         index: true
+    },
+    user_preferences: {
+        type:Number,
+        enum:[0,1]
     },
     tags: { // User-defined tags
         type: [String],

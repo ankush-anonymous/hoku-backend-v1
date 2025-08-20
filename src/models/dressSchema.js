@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const DressSchema = new mongoose.Schema({
     // --- Core Identifiers & Attributes ---
     user_id: {
-        type: String, // UUID from your 'users' table
+        type: String, // UUID from your 'users' table in PostgreSQL
         required: true,
         index: true
     },
@@ -16,60 +16,86 @@ const DressSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    brand: {
-        type: String,
-        default: null,
-        index: true
-    },
-    size: {
-        type: String,
-        default: null
-    },
 
-    // --- Dynamic Taxonomy (Linked to PostgreSQL) ---
-    dress_type_id: {
-        type: Number, // The ID from the PostgreSQL 'dress_types' table
+    // --- Taxonomy & Core Category (Linked to PostgreSQL) ---
+    category_id: {
+        type: Number, // The ID from the PostgreSQL 'dress_types' table (e.g., shirt, t-shirt, kurta)
         required: true,
         index: true
     },
-    category_id: {
-        type: Number, // The ID from the PostgreSQL 'categories' table
+    category_name: {
+        type: String, // The ID from the PostgreSQL 'dress_types' table (e.g., shirt, t-shirt, kurta)
+        required: true,
+        index: true
+    },    
+sub_category_name: {
+        type: String, // The ID from the PostgreSQL 'categories' table (e.g., Tops, Bottoms)
+        required: true
+    },
+sub_category_id: {
+        type: Number, // The ID from the PostgreSQL 'categories' table (e.g., Tops, Bottoms)
         required: true
     },
 
-    // --- AI-Generated & Analytical Fields ---
-    style_tags: { type: [String], default: [] },
-    material: { type: [String], default: [] },
-    pattern: { type: String, default: null },
+    // --- Physical Attributes ---
     color_palette: [{
         name: String,
         hex: String,
         coverage: Number // Percentage (0-1)
     }],
-    dominant_color_hex: { type: String, default: null },
-    ai_features: {
-        clarity_score: Number,
-        composition_score: Number,
-        embedding: { type: [Number], default: [] }, // Vector embedding for similarity search
-        generated_tags: { type: [String], default: [] }
+    dominant_color_hex: {
+        type: String,
+        default: null
+    },
+    print_pattern: {
+        type: String,
+        default: null
+    },
+    silhouette: {
+        type: String,
+        default: null
+    },
+    garment_length: {
+        type: String,
+        default: null
+    },
+    fit_type: {
+        type: String,
+        default: null
     },
 
-    // --- Context and Suitability ---
-    season_suitability: {
-        type: [String],
-        enum: ["spring", "summer", "autumn", "winter", "rainy", "all_seasons"],
-        default: []
+    // --- Structural Components (Nested Object) ---
+    components: {
+        neckline: { type: String, default: null },
+        sleeves: { type: String, default: null },
+        waistline: { type: String, default: null },
+        hemline: { type: String, default: null },
+        closure: { type: String, default: null },
+        collar_lapel_type: { type: String, default: null }
     },
-    occasion_suitability: {
-        type: [String],
-        enum: ["daily_wear", "beach", "party", "work", "formal_event", "sport", "lounge", "wedding", "halloween", "cosplay_event", "themed_party", "other"],
+
+    // --- Fabric Details (Nested Object) ---
+    fabric: {
+        material: { type: [String], default: [] },
+        weight_drape: { type: String, default: null }, // e.g., 'lightweight', 'heavy drape'
+        texture: { type: String, default: null } // e.g., 'smooth', 'ribbed'
+    },
+
+    // --- Embellishments & Details ---
+    details: {
+        type: [String], // e.g., ['pleats', 'embroidery', 'cut-outs']
         default: []
     },
 
-    // --- User-Specific Context ---
-    user_context: {
-        personal_rating: { type: Number, min: 1, max: 5 },
-        notes: String
+    // --- Functional & Aesthetic Classification ---
+    function_occasion: {
+        type: [String], // e.g., ['casual', 'workwear', 'festive']
+        default: []
+    },
+    // --- General & AI-Generated Tags ---
+    style_tags: {
+        type: [String],
+        default: []
     },
     is_favorite: {
         type: Boolean,
@@ -77,13 +103,12 @@ const DressSchema = new mongoose.Schema({
         index: true
     },
     
-    // --- Media Assets (Stored in Google Cloud Storage) ---
+    // --- Media Assets (e.g., URLs from Google Cloud Storage) ---
     media_assets: {
-        image_urls: { type: [String], default: [] },
-        video_url: { type: String, default: null }
+        image_urls: { type: [String], default: [] }
     }
 }, {
-    timestamps: true // Adds createdAt and updatedAt
+    timestamps: true // Adds createdAt and updatedAt automatically
 });
 
 const Dress = mongoose.model('Dress', DressSchema);

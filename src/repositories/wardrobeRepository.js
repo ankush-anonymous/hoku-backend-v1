@@ -7,13 +7,23 @@ const { pool } = require("../infrastructure/PgDB/connect"); // Assuming your poo
  * @returns {Promise<object>} The newly created wardrobe.
  */
 const createWardrobe = async (wardrobeData) => {
-  const { user_id, name, intent, lifestyle, negative_pref } = wardrobeData;
+  const {
+    user_id,
+    name,
+    intent,
+    lifestyle,
+    negative_pref,
+    is_favorite = false,
+    is_public = false
+  } = wardrobeData;
+
   const query = `
-    INSERT INTO wardrobes (user_id, name, intent, lifestyle, negative_pref)
-    VALUES ($1, $2, $3, $4, $5)
+    INSERT INTO wardrobes (user_id, name, intent, lifestyle, negative_pref, is_favorite, is_public)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *;
   `;
-  const values = [user_id, name, intent, lifestyle, negative_pref];
+  const values = [user_id, name, intent, lifestyle, negative_pref, is_favorite, is_public];
+
   try {
     const { rows } = await pool.query(query, values);
     return rows[0];
@@ -38,6 +48,18 @@ const getAllWardrobes = async () => {
   }
 };
 
+
+const getWardrobeByUserIdByName = async(userId,name)=>{
+  const query = 'SELECT * FROM wardrobes WHERE user_id = $1 AND name = $2';
+  try{
+    const {rows} = await pool.query(query,[userId,name])
+    return rows[0] || null;
+  } catch (error) {
+    console.error(`Repository Error: Could not get wardrobe by ID and name ${id}.`, error);
+    throw new Error('Database error while retrieving wardrobe by ID and name.');
+  }
+}
+
 /**
  * @description Retrieves a single wardrobe by its ID.
  * @param {string} id - The UUID of the wardrobe.
@@ -60,6 +82,7 @@ const getWardrobeById = async (id) => {
  * @returns {Promise<Array<object>>} A list of the user's wardrobes.
  */
 const getWardrobesByUserId = async (userId) => {
+  // Updated to order by created_at since position_in_wardrobe is removed
   const query = 'SELECT * FROM wardrobes WHERE user_id = $1 ORDER BY created_at;';
   try {
     const { rows } = await pool.query(query, [userId]);
@@ -71,7 +94,7 @@ const getWardrobesByUserId = async (userId) => {
 };
 
 /**
- * @description Finds the default "All Dresses" wardrobe for a user.
+ * @description Finds the default "Your Dresses" wardrobe for a user.
  * @param {string} userId - The UUID of the user.
  * @returns {Promise<object|null>} The default wardrobe object or null.
  */
@@ -95,13 +118,14 @@ const findDefaultWardrobeByUserId = async (userId) => {
 const updateWardrobeById = async (id, updates) => {
     const fields = Object.keys(updates);
     const values = Object.values(updates);
-    
+
     if (fields.length === 0) {
         return getWardrobeById(id);
     }
 
+    // Start parameter index at 2 since $1 is the wardrobe ID
     const setClause = fields.map((field, index) => `"${field}" = $${index + 2}`).join(', ');
-    
+
     const query = `
         UPDATE wardrobes
         SET ${setClause}, updated_at = CURRENT_TIMESTAMP
@@ -138,8 +162,9 @@ module.exports = {
   createWardrobe,
   getAllWardrobes,
   getWardrobeById,
+  getWardrobeByUserIdByName,
   getWardrobesByUserId,
-  findDefaultWardrobeByUserId, // Added for the new logic
+  findDefaultWardrobeByUserId,
   updateWardrobeById,
   deleteWardrobeById,
 };

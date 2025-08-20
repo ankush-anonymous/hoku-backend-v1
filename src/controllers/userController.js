@@ -1,7 +1,6 @@
 const userRepository = require("../repositories/userRepository");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// Assuming the refactored controller is named 'userActionsLog.controller.js'
 const UserActionsLogController = require("./userActivityController");
 
 /**
@@ -13,7 +12,6 @@ const loginUser = async (req, res) => {
 
     const user = await userRepository.findUserByEmailForAuth(email_id);
     if (!user) {
-      // No need to log here, as we don't know if the user even exists.
       return res
         .status(401)
         .json({ message: "Authentication failed. Invalid credentials." });
@@ -21,7 +19,6 @@ const loginUser = async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      // Log failed login attempt
       await UserActionsLogController.logAction({
         user_id: user.id,
         action_type: "LOGIN_ATTEMPT_FAILURE",
@@ -36,7 +33,6 @@ const loginUser = async (req, res) => {
         .json({ message: "Authentication failed. Invalid credentials." });
     }
 
-    // Log successful login
     await UserActionsLogController.logAction({
       user_id: user.id,
       action_type: "LOGIN_SUCCESS",
@@ -47,7 +43,15 @@ const loginUser = async (req, res) => {
       metadata: { ip: req.ip },
     });
 
-    const payload = { id: user.id, name: user.name, email: user.email_id };
+    // Updated payload to include more user context
+    const payload = {
+      id: user.id,
+      name: user.name,
+      email: user.email_id,
+      body_type: user.body_type,
+      top_size: user.top_size,
+      bottom_size: user.bottom_size
+    };
 
     jwt.sign(
       payload,
@@ -80,11 +84,11 @@ const createUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     userData.password = await bcrypt.hash(userData.password, salt);
 
+    // The repository's createUser function now handles all new fields
     const newUser = await userRepository.createUser(userData);
 
-    // Log user creation
     await UserActionsLogController.logAction({
-      user_id: newUser.id, // The user performing the action is the new user
+      user_id: newUser.id,
       action_type: "CREATE_USER",
       source_feature: "UserManagement",
       target_entity_type: "USER",
@@ -109,10 +113,59 @@ const createUser = async (req, res) => {
   }
 };
 
+/**
+ * @description Handles user signup with just email and password.
+ * A default name is generated from the email.
+ */
+const signupUser = async (req, res) => {
+  try {
+    const { email_id, password } = req.body;
+
+    // Automatically generate a name from the email address
+    // e.g., "example@email.com" becomes "example"
+    const name = email_id.split('@')[0];
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Prepare the user data object for the repository
+    const userData = {
+      name,
+      email_id,
+      password: hashedPassword,
+    };
+
+    const newUser = await userRepository.createUser(userData);
+
+    // Log the successful signup action
+    await UserActionsLogController.logAction({
+      user_id: newUser.id,
+      action_type: 'SIGNUP_USER',
+      source_feature: 'Authentication',
+      target_entity_type: 'USER',
+      target_entity_id: newUser.id,
+      status: 'SUCCESS',
+      metadata: { ip: req.ip },
+    });
+
+    delete newUser.password; // Never send the password hash in the response
+    res.status(201).json(newUser);
+  } catch (error) {
+    // Handle case where email is already registered (unique constraint violation)
+    if (error.code === '23505') {
+      return res.status(409).json({
+        message: 'User with this email already exists.',
+      });
+    }
+
+    // General server error
+    res.status(500).json({ message: 'Error signing up user', error: error.message });
+  }
+};
+
 const getAllUsers = async (req, res) => {
   try {
     const users = await userRepository.getAllUsers();
-    // No password deletion needed if your repository query excludes it
     res.status(200).json(users);
   } catch (error) {
     res
@@ -164,9 +217,8 @@ const updateUserById = async (req, res) => {
         .json({ message: "User not found or nothing to update" });
     }
 
-    // Log user update
     await UserActionsLogController.logAction({
-      user_id: id, // Or req.user.id if you have authenticated user info
+      user_id: id,
       action_type: "UPDATE_USER",
       source_feature: "UserManagement",
       target_entity_type: "USER",
@@ -191,9 +243,8 @@ const deleteUserById = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Log user soft deletion
     await UserActionsLogController.logAction({
-      user_id: id, // Or req.user.id if you have authenticated user info
+      user_id: id,
       action_type: "SOFT_DELETE_USER",
       source_feature: "UserManagement",
       target_entity_type: "USER",
@@ -215,7 +266,6 @@ const deleteUserById = async (req, res) => {
   }
 };
 
-// Note: Hard deletes are destructive and should be used with extreme caution.
 const hardDeleteUserById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -224,9 +274,8 @@ const hardDeleteUserById = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Log user hard deletion
     await UserActionsLogController.logAction({
-      user_id: id, // Or req.user.id
+      user_id: id,
       action_type: "HARD_DELETE_USER",
       source_feature: "UserManagement",
       target_entity_type: "USER",
@@ -251,6 +300,7 @@ const hardDeleteUserById = async (req, res) => {
 module.exports = {
   createUser,
   loginUser,
+  signupUser,
   getAllUsers,
   getUserById,
   getUserByEmail,

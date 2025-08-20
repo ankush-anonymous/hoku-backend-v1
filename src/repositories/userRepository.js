@@ -16,15 +16,19 @@ const createUser = async (userData) => {
     date_of_birth,
     colour_tone,
     undertone,
-    body_type
+    body_type,
+    height_range, 
+    weight_range, 
+    top_size,     
+    bottom_size   
   } = userData;
 
   const query = `
-    INSERT INTO users (name, phone_number, email_id, password, gender, date_of_birth, colour_tone, undertone, body_type)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    INSERT INTO users (name, phone_number, email_id, password, gender, date_of_birth, colour_tone, undertone, body_type, height_range, weight_range, top_size, bottom_size)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
     RETURNING *;
   `;
-  const values = [name, phone_number, email_id, password, gender, date_of_birth, colour_tone, undertone, body_type];
+  const values = [name, phone_number, email_id, password, gender, date_of_birth, colour_tone, undertone, body_type, height_range, weight_range, top_size, bottom_size];
 
   try {
     const { rows } = await pool.query(query, values);
@@ -67,7 +71,7 @@ const getUserById = async (id) => {
 };
 
 /**
- * @description Retrieves a single active user by their email address.
+ * @description Retrieves a single active user by their email address for general use.
  * @param {string} email - The email of the user.
  * @returns {Promise<object|null>} The user object or null if not found.
  */
@@ -78,6 +82,22 @@ const getUserByEmail = async (email) => {
         return rows[0] || null;
     } catch (error) {
         console.error(`Error getting user by email ${email}:`, error);
+        throw error;
+    }
+};
+
+/**
+ * @description Retrieves a user by email for authentication purposes, including the password.
+ * @param {string} email - The email of the user.
+ * @returns {Promise<object|null>} The full user object, including password hash.
+ */
+const findUserByEmailForAuth = async (email) => {
+    const query = 'SELECT * FROM users WHERE email_id = $1;';
+    try {
+        const { rows } = await pool.query(query, [email]);
+        return rows[0] || null;
+    } catch (error) {
+        console.error(`Error finding user by email for auth: ${email}.`, error);
         throw error;
     }
 };
@@ -149,7 +169,7 @@ const hardDeleteUserById = async (id) => {
     `;
     try {
         const { rows } = await pool.query(query, [id]);
-        return rows[0] || null; // Returns the deleted user data, or null if not found
+        return rows[0] || null;
     } catch (error) {
         console.error(`Error permanently deleting user by ID ${id}:`, error);
         throw error;
@@ -162,7 +182,8 @@ module.exports = {
   getAllUsers,
   getUserById,
   getUserByEmail,
+  findUserByEmailForAuth,
   updateUserById,
   deleteUserById,
-  hardDeleteUserById, // Added the new function here
+  hardDeleteUserById,
 };

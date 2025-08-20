@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+		"name": "Outfit & Wardrobe API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Outfits",
+			"item": [
+				{
+					"name": "Create New Outfit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": \"{{userId}}\",\n    \"in_wardrobe\": true,\n    \"name\": \"Summer Casual Look\",\n    \"description\": \"A light and airy outfit perfect for a sunny day.\",\n    \"outfit_image_url\": \"https://example.com/outfit_image.jpg\",\n    \"dress_components\": [\n        {\n            \"dress_id\": \"{{dressId}}\",\n            \"dress_type_id\": 101\n        },\n        {\n            \"dress_id\": \"60d5f1b3b5a7b04f4c8b4568\",\n            \"dress_type_id\": 202\n        }\n    ],\n    \"styling_aesthetics\": [\"casual\", \"bohemian\"],\n    \"composed_by\": \"user\",\n    \"is_favorite\": true,\n    \"tags\": [\"summer\", \"beach-day\"],\n    \"user_preferences\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/outfits",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"outfits"
+							]
+						},
+						"description": "Creates a new outfit and links it to the user's default 'Your Outfits' wardrobe."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Outfits",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/outfits",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"outfits"
+							]
+						},
+						"description": "Retrieves a list of all outfits in the database."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Outfit by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/outfits/{{outfitId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"outfits",
+								"{{outfitId}}"
+							]
+						},
+						"description": "Retrieves a single outfit by its unique MongoDB ObjectId."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Outfits by User ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/outfits/user/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"outfits",
+								"user",
+								"{{userId}}"
+							]
+						},
+						"description": "Retrieves all outfits belonging to a specific user."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Outfits by Wardrobe ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/outfits/wardrobe/{{wardrobeId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"outfits",
+								"wardrobe",
+								"{{wardrobeId}}"
+							]
+						},
+						"description": "Retrieves all outfits within a specific wardrobe."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Outfits by Dress Component ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/outfits/dress/{{dressId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"outfits",
+								"dress",
+								"{{dressId}}"
+							]
+						},
+						"description": "Retrieves all outfits that include a specific dress."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "outfitId",
+			"value": "your_outfit_object_id_here",
+			"type": "string"
+		},
+		{
+			"key": "userId",	
+			"value": "your_user_uuid_here",
+			"type": "string"
+		},
+		{
+			"key": "wardrobeId",
+			"value": "your_wardrobe_uuid_here",
+			"type": "string"
+		},
+		{
+			"key": "dressId",
+			"value": "your_dress_object_id_here",
+			"type": "string"
+		}
+	]
+}

@@ -14,6 +14,12 @@ const createUserSchema = Joi.object({
     body_type: Joi.string().max(50).optional(),
 });
 
+// Schema for user signup (email and password only).
+const signupSchema = Joi.object({
+    email_id: Joi.string().email().max(255).required(),
+    password: Joi.string().min(6).max(255).required(),
+});
+
 // Schema for updating an existing user.
 const updateUserSchema = Joi.object({
     name: Joi.string().max(255).optional(),
@@ -51,4 +57,5 @@ module.exports = {
     validateCreateUser: validate(createUserSchema),
     validateUpdateUser: validate(updateUserSchema),
     validateLogin: validate(loginSchema), // Added the export for login validation
+    validateSignup: validate(signupSchema),
 };

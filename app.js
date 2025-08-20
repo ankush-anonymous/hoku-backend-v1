@@ -14,6 +14,16 @@ const userRouter = require("./src/routers/userRouter")
 const userActivityRouter = require("./src/routers/userActivityRouter")
 const wardrobeRouter = require("./src/routers/wardrobeRouter")
 const dressRouter = require("./src/routers/dressRouter")
+const featureRouter = require("./src/routers/featureRouter")
+const paymentRouter = require("./src/routers/paymentRouter");
+const planRouter = require("./src/routers/planRouter");
+const subscriptionRouter = require("./src/routers/subscriptionRouter");
+const productRouter = require("./src/routers/productRouter");
+const creditTransactionRouter = require("./src/routers/creditTransactionRouter");
+const userOnboardingRouter = require("./src/routers/userOnboardingServiceRouter");
+const outfitRouter = require("./src/routers/outfitRouter");
+
+
 
 const corsOptions = {
   origin: "*"
@@ -29,6 +39,8 @@ app.use("/api/v1/users",userRouter)
 app.use("/api/v1/logs",userActivityRouter)
 app.use("/api/v1/wardrobes",wardrobeRouter)
 app.use("/api/v1/dresses",dressRouter)
+app.use("/api/v1/user/onboard",userOnboardingRouter)
+app.use("/api/v1/outfits",outfitRouter)
 
 const port = process.env.PORT || 5000;
 

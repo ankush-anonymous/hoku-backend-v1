@@ -1,0 +1,135 @@
+{
+    "info": {
+        "_postman_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "name": "User Onboarding API",
+        "description": "A collection to test all endpoints for the User Onboarding API.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "1. Basic Signup",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"email_id\": \"testuser@example.com\",\n    \"password\": \"password123\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{URL}}/api/v1/user/onboard/signup",
+                    "host": [
+                        "{{URL}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "user",
+                        "onboard",
+                        "signup"
+                    ]
+                },
+                "description": "Registers a new user with just an email and password. Returns `userId` and `wardrobeId` on success."
+            },
+            "response": []
+        },
+        {
+            "name": "2. Complete Onboarding",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"userDetails\": {\n        \"name\": \"Jane Doe\",\n        \"phone_number\": \"1234567890\",\n        \"email_id\": \"jane.doe@example.com\",\n        \"password\": \"strongpassword123\",\n        \"gender\": \"female\",\n        \"date_of_birth\": \"1995-08-15\",\n        \"colour_tone\": \"Warm\",\n        \"undertone\": \"Yellow\",\n        \"body_type\": \"Pear\",\n        \"height_range\": \"5'4\\\" - 5'6\\\"\",\n        \"weight_range\": \"130-140 lbs\",\n        \"top_size\": \"M\",\n        \"bottom_size\": \"L\"\n    },\n    \"userPreferences\": {\n        \"intent\": \"Build a versatile wardrobe\",\n        \"lifestyle\": \"Active and professional\",\n        \"negative_pref\": \"Dislikes neon colors\"\n    },\n    \"dresses\": [\n        {\n            \"name\": \"Blue Summer Dress\",\n            \"category_id\": 1,\n            \"category_name\": \"Dresses\",\n            \"sub_category_id\": 101,\n            \"sub_category_name\": \"Casual Dresses\"\n        },\n        {\n            \"name\": \"Black Work Trousers\",\n            \"category_id\": 2,\n            \"category_name\": \"Bottoms\",\n            \"sub_category_id\": 201,\n            \"sub_category_name\": \"Trousers\"\n        }\n    ]\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{URL}}/api/v1/user/onboard/complete",
+                    "host": [
+                        "{{URL}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "user",
+                        "onboard",
+                        "complete"
+                    ]
+                },
+                "description": "Onboards a new user with full details and initial dresses. Returns `userId` and `wardrobeId` on success."
+            },
+            "response": []
+        },
+        {
+            "name": "3. Update Onboarding Details",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"userId\": \"{{userId}}\",\n    \"wardrobeId\": \"{{wardrobeId}}\",\n    \"userDetails\": {\n        \"body_type\": \"Hourglass\",\n        \"top_size\": \"S\"\n    },\n    \"wardrobeDetails\": {\n        \"name\": \"Jane's Updated Wardrobe\"\n    },\n    \"dresses\": [\n        {\n            \"name\": \"Red Formal Blouse\",\n            \"category_id\": 3,\n            \"category_name\": \"Tops\",\n            \"sub_category_id\": 301,\n            \"sub_category_name\": \"Blouses\"\n        }\n    ]\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{URL}}/api/v1/user/onboard/update-details",
+                    "host": [
+                        "{{URL}}"
+                    ],
+                    "path": [
+                        "api",
+                        "v1",
+                        "user",
+                        "onboard",
+                        "update-details"
+                    ]
+                },
+                "description": "Updates an existing user's profile, wardrobe, and adds dresses. Set the `userId` and `wardrobeId` variables from the response of a signup request."
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "URL",
+            "value": "http://localhost:5000",
+            "type": "string"
+        },
+        {
+            "key": "userId",
+            "value": "your-user-uuid-from-signup-response",
+            "type": "string"
+        },
+        {
+            "key": "wardrobeId",
+            "value": "your-wardrobe-uuid-from-signup-response",
+            "type": "string"
+        }
+    ]
+}

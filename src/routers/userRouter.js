@@ -17,6 +17,12 @@ router.post(
     userController.createUser
 );
 
+router.post(
+    '/signup',
+    userValidator.validateSignup,
+    userController.signupUser
+)
+
 
 /**
  * @route   POST /api/users/login
