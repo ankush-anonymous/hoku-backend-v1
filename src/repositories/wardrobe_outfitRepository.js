@@ -23,6 +23,26 @@ const linkOutfitToWardrobe = async (wardrobeId, outfitIdMongo) => {
     }
 };
 
+
+/**
+ * @description Checks if a specific outfit is already linked to a specific wardrobe.
+ * @param {string} wardrobeId - The UUID of the wardrobe.
+ * @param {string} outfitIdMongo - The ID of the outfit from MongoDB.
+ * @returns {Promise<boolean>} True if the link exists, false otherwise.
+ */
+const checkOutfitInWardrobe = async (wardrobeId, outfitIdMongo) => {
+    // We use "SELECT 1" for efficiency as we only need to confirm existence, not retrieve data.
+    const query = 'SELECT 1 FROM wardrobes_outfit WHERE wardrobe_id = $1 AND outfit_id_mongo = $2 LIMIT 1;';
+    try {
+        const result = await pool.query(query, [wardrobeId, outfitIdMongo]);
+        // The rowCount will be 1 if the link is found, and 0 if it is not.
+        return result.rowCount > 0;
+    } catch (error) {
+        console.error(`Repository Error: Could not check link for outfit ${outfitIdMongo} in wardrobe ${wardrobeId}.`, error);
+        throw new Error('Database error while checking wardrobe-outfit link.');
+    }
+};
+
 /**
  * @description Retrieves all outfit IDs associated with a single wardrobe.
  * @param {string} wardrobeId - The UUID of the wardrobe.

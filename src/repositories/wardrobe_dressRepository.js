@@ -39,6 +39,29 @@ const getDressIdsByWardrobeId = async (wardrobeId) => {
     }
 };
 
+
+/**
+ * @description Checks if a specific dress is already linked to a specific wardrobe.
+ * @param {string} wardrobeId - The UUID of the wardrobe.
+ * @param {string} dressIdMongo - The ID of the dress from MongoDB.
+ * @returns {Promise<boolean>} True if the link exists, false otherwise.
+ */
+const checkDressInWardrobe = async (wardrobeId, dressIdMongo) => {
+    // We use "SELECT 1" for efficiency as we only need to confirm existence, not retrieve data.
+    const query = 'SELECT 1 FROM wardrobe_dresses WHERE wardrobe_id = $1 AND dress_id_mongo = $2;';
+    try {
+        const result = await pool.query(query, [wardrobeId, dressIdMongo]);
+        // The rowCount will be 1 if the link is found, and 0 if it is not.
+        return result.rowCount > 0;
+    } catch (error) {
+        console.error(`Repository Error: Could not check link for dress ${dressIdMongo} in wardrobe ${wardrobeId}.`, error);
+        throw new Error('Database error while checking wardrobe-dress link.');
+    }
+};
+
+
+
+
 /**
  * @description Removes a link between a specific wardrobe and dress.
  * @param {string} wardrobeId - The UUID of the wardrobe.
@@ -78,4 +101,5 @@ module.exports = {
     getDressIdsByWardrobeId,
     unlinkDressFromWardrobe,
     unlinkAllInstancesOfDress,
+    checkDressInWardrobe
 };

@@ -16,6 +16,7 @@ router.post(
     dressController.addDress
 );
 
+
 /**
  * @route   GET /api/v1/dresses/getDressById/:id
  * @desc    Get a single dress by its MongoDB ID.
@@ -66,6 +67,18 @@ router.delete(
     '/deleteDressById/:id',
     dressController.deleteDressById
 );
+
+
+/**
+ * @route   POST /api/v1/dresses/linkDressToWardrobe
+ * @desc    Link existing dress to a wardrobe
+ * @access  Protected
+ */
+router.post(
+    '/linkDressToWardrobe/:wardrobeId/:dressId',
+    dressController.linkDressToWardrobe
+);
+
 
 /**
  * @route   DELETE /api/v1/dresses/removeDressFromWardrobe/:wardrobeId/:dressId

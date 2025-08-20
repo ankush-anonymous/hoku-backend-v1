@@ -8,42 +8,53 @@ const UserActionsLogController = require('./userActivityController'); // Import 
  * @description Creates a dress and links it to the appropriate wardrobe(s).
  */
 const addDress = async (req, res) => {
-    const { wardrobe_id, ...dressData } = req.body;
+    const dressData = req.body;
     let newDress;
 
     try {
+        // Step 1: Find the user's default wardrobe, which is essential for storing the dress.
         const defaultWardrobe = await wardrobeRepository.findDefaultWardrobeByUserId(dressData.user_id);
         if (!defaultWardrobe) {
-            throw new Error(`Default 'All Dresses' wardrobe not found for user ${dressData.user_id}.`);
+            // This is a critical failure, as every user should have a default wardrobe.
+            throw new Error(`Default 'Your Dresses' wardrobe not found for user ${dressData.user_id}.`);
         }
 
+        // Step 2: Create the dress document in MongoDB.
         newDress = await dressRepository.createDress(dressData);
-        if (!newDress) throw new Error("Dress creation in MongoDB failed.");
+        if (!newDress) {
+            throw new Error("Dress creation in MongoDB failed.");
+        }
 
+        // Step 3: Link the newly created dress to the default wardrobe in PostgreSQL.
         const dressMongoId = newDress._id.toString();
         await wardrobeDressesRepository.linkDressToWardrobe(defaultWardrobe.id, dressMongoId);
-
-        if (wardrobe_id && wardrobe_id !== defaultWardrobe.id) {
-            await wardrobeDressesRepository.linkDressToWardrobe(wardrobe_id, dressMongoId);
-        }
         
-        // Log the successful action
+        // Step 4: Log the successful action.
         await UserActionsLogController.logAction({ 
             user_id: dressData.user_id,
             action_type: 'ADD_DRESS',
             source_feature: 'DressManagement',
             target_entity_type: 'DRESS',
-            target_entity_id: newDress._id.toString(),
+            target_entity_id: dressMongoId,
             status: 'SUCCESS',
-            metadata: { dress_name: newDress.name, linked_to_wardrobe: wardrobe_id || defaultWardrobe.id, ip: req.ip }
+            metadata: { 
+                dress_name: newDress.name, 
+                linked_to_wardrobe: defaultWardrobe.id, // Log the default wardrobe ID
+                ip: req.ip 
+            }
         });
 
-        res.status(201).json({ message: 'Dress added successfully!', dress: newDress });
+        res.status(201).json({ message: 'Dress added successfully to your default wardrobe!', dress: newDress });
+
     } catch (error) {
         console.error('Controller Error: Could not add dress.', error.message);
-        if (newDress) console.error(`CRITICAL: Dress ${newDress._id} was created but a linking or logging error occurred.`);
         
-        // Log the failure
+        // If the dress was created but a subsequent step failed, log it for debugging.
+        if (newDress) {
+            console.error(`CRITICAL: Dress ${newDress._id} was created but a linking or logging error occurred.`);
+        }
+        
+        // Log the failure event.
         await UserActionsLogController.logAction({
             user_id: req.body.user_id,
             action_type: 'ADD_DRESS',
@@ -166,6 +177,52 @@ const deleteDressById = async (req, res) => {
     }
 };
 
+
+/**
+ * @description Links an existing dress to a specific wardrobe.
+ */
+const linkDressToWardrobe = async (req, res) => {
+    try {
+        const { wardrobeId, dressId } = req.params;
+
+        // Step 1: Fetch the wardrobe to ensure it exists and to get the user_id for logging.
+        const wardrobe = await wardrobeRepository.getWardrobeById(wardrobeId);
+        if (!wardrobe) {
+            return res.status(404).json({ message: 'Wardrobe not found.' });
+        }
+
+        // Step 2: Check if the dress is already in the wardrobe.
+        const alreadyExists = await wardrobeDressesRepository.checkDressInWardrobe(wardrobeId, dressId);
+        if (alreadyExists) {
+            return res.status(409).json({ message: 'This dress is already in the wardrobe.' });
+        }
+
+        // Step 3: Create the link in the database.
+        const linked = await wardrobeDressesRepository.linkDressToWardrobe(wardrobeId, dressId);
+
+        // Step 4: Log the successful linking action.
+        await UserActionsLogController.logAction({
+            user_id: wardrobe.user_id,
+            action_type: 'LINK_DRESS_TO_WARDROBE',
+            source_feature: 'DressManagement',
+            target_entity_type: 'WARDROBE_DRESS_LINK',
+            target_entity_id: dressId,
+            status: 'SUCCESS',
+            metadata: { wardrobe_id: wardrobeId, ip: req.ip }
+        });
+
+        res.status(201).json({ 
+            message: 'Dress linked to wardrobe successfully.', 
+            data: linked 
+        });
+
+    } catch (error) {
+        console.error('Controller Error: Could not link dress to wardrobe.', error.message);
+        res.status(500).json({ message: 'Failed to link dress to wardrobe.', error: error.message });
+    }
+};
+
+
 /**
  * @description Removes a dress from a specific wardrobe without deleting the dress itself.
  */
@@ -209,5 +266,6 @@ module.exports = {
     getDressesByWardrobeId,
     updateDressById,
     deleteDressById,
+    linkDressToWardrobe,
     removeDressFromWardrobe,
 };
