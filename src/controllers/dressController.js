@@ -223,40 +223,40 @@ const linkDressToWardrobe = async (req, res) => {
 };
 
 
-/**
- * @description Removes a dress from a specific wardrobe without deleting the dress itself.
- */
-const removeDressFromWardrobe = async (req, res) => {
-    try {
-        const { wardrobeId, dressId } = req.params;
+    /**
+     * @description Removes a dress from a specific wardrobe without deleting the dress itself.
+     */
+    const removeDressFromWardrobe = async (req, res) => {
+        try {
+            const { wardrobeId, dressId } = req.params;
 
-        const wardrobe = await wardrobeRepository.getWardrobeById(wardrobeId);
-        if (wardrobe && wardrobe.name === 'Your Dresses') {
-            return res.status(403).json({ message: 'Cannot remove a dress from the default "Your Dresses" wardrobe.' });
+            const wardrobe = await wardrobeRepository.getWardrobeById(wardrobeId);
+            if (wardrobe && wardrobe.name === 'Your Dresses') {
+                return res.status(403).json({ message: 'Cannot remove a dress from the default "Your Dresses" wardrobe.' });
+            }
+
+            const unlinked = await wardrobeDressesRepository.unlinkDressFromWardrobe(wardrobeId, dressId);
+            if (!unlinked) {
+                return res.status(404).json({ message: 'Link between dress and wardrobe not found.' });
+            }
+            
+            // Log the successful removal
+            await UserActionsLogController.logAction({
+                user_id: wardrobe.user_id,
+                action_type: 'REMOVE_DRESS_FROM_WARDROBE',
+                source_feature: 'DressManagement',
+                target_entity_type: 'WARDROBE_DRESS_LINK',
+                target_entity_id: dressId,
+                status: 'SUCCESS',
+                metadata: { wardrobe_id: wardrobeId, ip: req.ip }
+            });
+
+            res.status(200).json({ message: 'Dress removed from wardrobe successfully.' });
+        } catch (error) {
+            console.error('Controller Error: Could not remove dress from wardrobe.', error.message);
+            res.status(500).json({ message: 'Failed to remove dress from wardrobe.', error: error.message });
         }
-
-        const unlinked = await wardrobeDressesRepository.unlinkDressFromWardrobe(wardrobeId, dressId);
-        if (!unlinked) {
-            return res.status(404).json({ message: 'Link between dress and wardrobe not found.' });
-        }
-        
-        // Log the successful removal
-        await UserActionsLogController.logAction({
-            user_id: wardrobe.user_id,
-            action_type: 'REMOVE_DRESS_FROM_WARDROBE',
-            source_feature: 'DressManagement',
-            target_entity_type: 'WARDROBE_DRESS_LINK',
-            target_entity_id: dressId,
-            status: 'SUCCESS',
-            metadata: { wardrobe_id: wardrobeId, ip: req.ip }
-        });
-
-        res.status(200).json({ message: 'Dress removed from wardrobe successfully.' });
-    } catch (error) {
-        console.error('Controller Error: Could not remove dress from wardrobe.', error.message);
-        res.status(500).json({ message: 'Failed to remove dress from wardrobe.', error: error.message });
-    }
-};
+    };
 
 
 module.exports = {

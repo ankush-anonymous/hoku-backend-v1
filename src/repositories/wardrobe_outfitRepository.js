@@ -98,4 +98,5 @@ module.exports = {
     getOutfitIdsByWardrobeId,
     unlinkOutfitFromWardrobe,
     unlinkAllInstancesOfOutfit,
+    checkOutfitInWardrobe
 };

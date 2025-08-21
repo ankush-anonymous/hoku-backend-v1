@@ -22,7 +22,7 @@ const productRouter = require("./src/routers/productRouter");
 const creditTransactionRouter = require("./src/routers/creditTransactionRouter");
 const userOnboardingRouter = require("./src/routers/userOnboardingServiceRouter");
 const outfitRouter = require("./src/routers/outfitRouter");
-
+const categoryRouter = require("./src/routers/categoryRouter")
 
 
 const corsOptions = {
@@ -41,6 +41,7 @@ app.use("/api/v1/wardrobes",wardrobeRouter)
 app.use("/api/v1/dresses",dressRouter)
 app.use("/api/v1/user/onboard",userOnboardingRouter)
 app.use("/api/v1/outfits",outfitRouter)
+app.use("/api/v1/categories",categoryRouter)
 
 const port = process.env.PORT || 5000;
 
