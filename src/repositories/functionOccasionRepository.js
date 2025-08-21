@@ -9,7 +9,7 @@ const { pool } = require("../infrastructure/PgDB/connect"); // Adjust path to yo
  */
 const createEventName = async (name) => {
   const query = `
-    INSERT INTO event_names (name) 
+    INSERT INTO function_occasion (name) 
     VALUES ($1) 
     RETURNING *;
   `;
@@ -28,7 +28,7 @@ const createEventName = async (name) => {
  */
 const getAllEventNames = async () => {
   const query = `
-    SELECT * FROM event_names 
+    SELECT * FROM function_occasion 
     ORDER BY name ASC;
   `;
   try {
@@ -47,7 +47,7 @@ const getAllEventNames = async () => {
  */
 const deleteEventNameById = async (id) => {
   const query = `
-    DELETE FROM event_names 
+    DELETE FROM function_occasion 
     WHERE id = $1 
     RETURNING *;
   `;

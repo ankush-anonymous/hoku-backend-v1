@@ -24,7 +24,7 @@ const userOnboardingRouter = require("./src/routers/userOnboardingServiceRouter"
 const outfitRouter = require("./src/routers/outfitRouter");
 const categoryRouter = require("./src/routers/categoryRouter")
 const colorFamilyRouter = require("./src/routers/colourFamilyRouter")
-const eventNameRouter = require("./src/routers/eventNameRouter")
+const eventNameRouter = require("./src/routers/functionOccasionRouter")
 
 
 const corsOptions = {

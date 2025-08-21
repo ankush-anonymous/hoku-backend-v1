@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const eventNameController = require('../controllers/eventNameController');
+const eventNameController = require('../controllers/functionOccasionController');
 
 // GET /api/v1/events
 // Retrieves all event names.

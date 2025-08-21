@@ -1,6 +1,6 @@
 // src/controllers/eventNameController.js
 
-const eventNameRepository = require('../repositories/eventNameRepository');
+const eventNameRepository = require('../repositories/functionOccasionRepository');
 
 const createEventName = async (req, res) => {
   try {
