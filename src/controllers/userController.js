@@ -50,7 +50,9 @@ const loginUser = async (req, res) => {
       email: user.email_id,
       body_type: user.body_type,
       top_size: user.top_size,
-      bottom_size: user.bottom_size
+      bottom_size: user.bottom_size,
+      height_range: user.height_range, // Added for context
+      weight_range: user.weight_range
     };
 
     jwt.sign(

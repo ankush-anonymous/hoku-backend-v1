@@ -1,7 +1,6 @@
 const Joi = require('joi');
 
 // This schema validates the payload for adding a new dress.
-// It is updated to match the new Mongoose DressSchema.
 const addDressSchema = Joi.object({
     // The wardrobe_id is an optional, contextual field for routing the dress, not part of the schema itself.
     wardrobe_id: Joi.string().uuid().optional(),
@@ -18,6 +17,7 @@ const addDressSchema = Joi.object({
     sub_category_name: Joi.string().required(),
 
     // --- Physical Attributes ---
+    color_family: Joi.string().required(), // Added to match Mongoose schema
     color_palette: Joi.array().items(Joi.object({
         name: Joi.string(),
         hex: Joi.string(),
@@ -29,7 +29,7 @@ const addDressSchema = Joi.object({
     garment_length: Joi.string().allow(null),
     fit_type: Joi.string().allow(null),
 
-    // --- Structural Components (New Nested Object) ---
+    // --- Structural Components (Nested Object) ---
     components: Joi.object({
         neckline: Joi.string().allow(null),
         sleeves: Joi.string().allow(null),
@@ -39,7 +39,7 @@ const addDressSchema = Joi.object({
         collar_lapel_type: Joi.string().allow(null)
     }).optional(),
 
-    // --- Fabric Details (New Nested Object) ---
+    // --- Fabric Details (Nested Object) ---
     fabric: Joi.object({
         material: Joi.array().items(Joi.string()).optional(),
         weight_drape: Joi.string().allow(null),
@@ -68,6 +68,7 @@ const updateDressSchema = Joi.object({
     category_name: Joi.string().optional(),
     sub_category_id: Joi.number().integer().optional(),
     sub_category_name: Joi.string().optional(),
+    color_family: Joi.string().optional(), // Added to match Mongoose schema
     color_palette: Joi.array().items(Joi.object({
         name: Joi.string(),
         hex: Joi.string(),
@@ -100,7 +101,7 @@ const updateDressSchema = Joi.object({
     }).optional()
 }).min(1); // Ensure at least one field is provided for an update.
 
-// Generic validation middleware (no changes needed)
+// Generic validation middleware
 const validate = (schema) => (req, res, next) => {
     const { error } = schema.validate(req.body);
     if (error) {

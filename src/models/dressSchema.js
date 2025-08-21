@@ -38,6 +38,10 @@ sub_category_id: {
     },
 
     // --- Physical Attributes ---
+    color_family:{
+        type:String,
+        required: true,
+    },
     color_palette: [{
         name: String,
         hex: String,

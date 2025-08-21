@@ -17,18 +17,29 @@ const createUser = async (userData) => {
     colour_tone,
     undertone,
     body_type,
-    height_range, 
-    weight_range, 
-    top_size,     
-    bottom_size   
+    height_range,
+    weight_range,
+    top_size,
+    bottom_size,
+    brand,                 // Added
+    razorpay_customer_id,  // Added
+    credit_balance,        // Added
   } = userData;
 
   const query = `
-    INSERT INTO users (name, phone_number, email_id, password, gender, date_of_birth, colour_tone, undertone, body_type, height_range, weight_range, top_size, bottom_size)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+    INSERT INTO users (
+      name, phone_number, email_id, password, gender, date_of_birth, 
+      colour_tone, undertone, body_type, height_range, weight_range, 
+      top_size, bottom_size, brand, razorpay_customer_id, credit_balance
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)
     RETURNING *;
   `;
-  const values = [name, phone_number, email_id, password, gender, date_of_birth, colour_tone, undertone, body_type, height_range, weight_range, top_size, bottom_size];
+  const values = [
+    name, phone_number, email_id, password, gender, date_of_birth,
+    colour_tone, undertone, body_type, height_range, weight_range,
+    top_size, bottom_size, brand, razorpay_customer_id, credit_balance
+  ];
 
   try {
     const { rows } = await pool.query(query, values);

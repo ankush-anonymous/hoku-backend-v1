@@ -23,6 +23,8 @@ const creditTransactionRouter = require("./src/routers/creditTransactionRouter")
 const userOnboardingRouter = require("./src/routers/userOnboardingServiceRouter");
 const outfitRouter = require("./src/routers/outfitRouter");
 const categoryRouter = require("./src/routers/categoryRouter")
+const colorFamilyRouter = require("./src/routers/colourFamilyRouter")
+const eventNameRouter = require("./src/routers/eventNameRouter")
 
 
 const corsOptions = {
@@ -42,6 +44,8 @@ app.use("/api/v1/dresses",dressRouter)
 app.use("/api/v1/user/onboard",userOnboardingRouter)
 app.use("/api/v1/outfits",outfitRouter)
 app.use("/api/v1/categories",categoryRouter)
+app.use("/api/v1/colorFamily",colorFamilyRouter)
+app.use("/api/v1/event",eventNameRouter)
 
 const port = process.env.PORT || 5000;
 
