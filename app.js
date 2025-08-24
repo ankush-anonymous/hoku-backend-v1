@@ -25,6 +25,7 @@ const outfitRouter = require("./src/routers/outfitRouter");
 const categoryRouter = require("./src/routers/categoryRouter")
 const colorFamilyRouter = require("./src/routers/colourFamilyRouter")
 const eventNameRouter = require("./src/routers/functionOccasionRouter")
+const razorpayRouter = require("./src/routers/razorpayPaymentRoute")
 
 
 const corsOptions = {
@@ -46,6 +47,14 @@ app.use("/api/v1/outfits",outfitRouter)
 app.use("/api/v1/categories",categoryRouter)
 app.use("/api/v1/colorFamily",colorFamilyRouter)
 app.use("/api/v1/event",eventNameRouter)
+app.use("/api/v1/feature",featureRouter);
+app.use("/api/v1/payment",paymentRouter);
+app.use("/api/v1/subscription",subscriptionRouter);
+app.use("/api/v1/product",productRouter);
+app.use("/api/v1/plan",planRouter);
+app.use("/api/v1/credit-transaction",creditTransactionRouter);
+app.use("/api/v1/razorpay",razorpayRouter)
+
 
 const port = process.env.PORT || 5000;
 

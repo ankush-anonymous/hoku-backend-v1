@@ -1,7 +1,14 @@
 // user.validator.js
 const Joi = require('joi');
 
-// Schema for creating a new user.
+
+
+// Schema for user signup (email and password only).
+const signupSchema = Joi.object({
+    email_id: Joi.string().email().max(255).required(),
+    password: Joi.string().min(6).max(255).required(),
+});
+
 const createUserSchema = Joi.object({
     name: Joi.string().max(255).required(),
     phone_number: Joi.string().max(20).optional().allow(null, ''),
@@ -9,22 +16,16 @@ const createUserSchema = Joi.object({
     password: Joi.string().min(6).max(255).required(),
     gender: Joi.string().valid('male', 'female', 'other', 'prefer_not_to_say').optional().allow(null, ''),
     date_of_birth: Joi.date().iso().optional().allow(null),
-    colour_tone: Joi.string().max(255).optional().allow(null, ''),
+    skin_type: Joi.string().max(255).optional().allow(null, ''), 
     undertone: Joi.string().max(255).optional().allow(null, ''),
     body_type: Joi.string().max(50).optional().allow(null, ''),
-    height_range: Joi.string().max(50).optional().allow(null, ''),   // Added
-    weight_range: Joi.string().max(50).optional().allow(null, ''),   // Added
-    top_size: Joi.string().max(50).optional().allow(null, ''),       // Added
-    bottom_size: Joi.string().max(50).optional().allow(null, ''),    // Added
-    brand: Joi.string().max(50).optional().allow(null, ''),          // Added
-    razorpay_customer_id: Joi.string().max(255).optional().allow(null, ''), // Added
-    credit_balance: Joi.number().integer().optional(),               // Added
-});
-
-// Schema for user signup (email and password only).
-const signupSchema = Joi.object({
-    email_id: Joi.string().email().max(255).required(),
-    password: Joi.string().min(6).max(255).required(),
+    height_range: Joi.string().max(50).optional().allow(null, ''),
+    weight_range: Joi.string().max(50).optional().allow(null, ''),
+    top_size: Joi.string().max(50).optional().allow(null, ''),
+    bottom_size: Joi.string().max(50).optional().allow(null, ''),
+    brand: Joi.string().max(50).optional().allow(null, ''),
+    razorpay_customer_id: Joi.string().max(255).optional().allow(null, ''),
+    credit_balance: Joi.number().integer().optional(),
 });
 
 // Schema for updating an existing user.
@@ -36,18 +37,17 @@ const updateUserSchema = Joi.object({
     current_location_id: Joi.string().uuid().optional().allow(null),
     gender: Joi.string().valid('male', 'female', 'other', 'prefer_not_to_say').optional().allow(null, ''),
     date_of_birth: Joi.date().iso().optional().allow(null),
-    colour_tone: Joi.string().max(255).optional().allow(null, ''),
+    skin_type: Joi.string().max(255).optional().allow(null, ''), 
     undertone: Joi.string().max(255).optional().allow(null, ''),
     body_type: Joi.string().max(50).optional().allow(null, ''),
-    height_range: Joi.string().max(50).optional().allow(null, ''),   // Added
-    weight_range: Joi.string().max(50).optional().allow(null, ''),   // Added
-    top_size: Joi.string().max(50).optional().allow(null, ''),       // Added
-    bottom_size: Joi.string().max(50).optional().allow(null, ''),    // Added
-    brand: Joi.string().max(50).optional().allow(null, ''),          // Added
-    razorpay_customer_id: Joi.string().max(255).optional().allow(null, ''), // Added
-    credit_balance: Joi.number().integer().optional(),               // Added
-}).min(1); // At least one field must be provided for an update.
-
+    height_range: Joi.string().max(50).optional().allow(null, ''),
+    weight_range: Joi.string().max(50).optional().allow(null, ''),
+    top_size: Joi.string().max(50).optional().allow(null, ''),
+    bottom_size: Joi.string().max(50).optional().allow(null, ''),
+    brand: Joi.string().max(50).optional().allow(null, ''),
+    razorpay_customer_id: Joi.string().max(255).optional().allow(null, ''),
+    credit_balance: Joi.number().integer().optional(),
+}).min(1);
 // Schema for user login.
 const loginSchema = Joi.object({
     email_id: Joi.string().email().required(),

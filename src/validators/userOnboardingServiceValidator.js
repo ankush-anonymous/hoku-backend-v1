@@ -8,7 +8,7 @@ const userDetailsSchema = Joi.object({
     phone_number: Joi.string().max(20).optional().allow(null, ''),
     gender: Joi.string().valid('male', 'female', 'other', 'prefer_not_to_say').optional(),
     date_of_birth: Joi.date().iso().optional(),
-    colour_tone: Joi.string().max(255).optional(),
+    skin_type: Joi.string().max(255).optional(),
     undertone: Joi.string().max(255).optional(),
     body_type: Joi.string().max(50).optional(),
     height_range: Joi.string().max(50).optional(),
