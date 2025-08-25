@@ -9,14 +9,12 @@ const dressComponentSchema = Joi.object({
         'string.length': 'dress_id must be 24 characters long.',
         'any.required': 'dress_id is required.',
     }),
-    dress_category_id: Joi.string().uuid().required().messages({
-        'string.base': 'dress_category_id must be a string.',
-        'string.guid': 'dress_category_id must be a valid UUID.',
+    dress_category_id: Joi.number().required().messages({
+        'number.base': 'dress_category_id must be a number.',
         'any.required': 'dress_category_id is required.',
     }),
-    dress_subcategory_id: Joi.string().uuid().required().messages({
-        'string.base': 'dress_subcategory_id must be a string.',
-        'string.guid': 'dress_subcategory_id must be a valid UUID.',
+    dress_subcategory_id: Joi.number().required().messages({
+        'number.base': 'dress_subcategory_id must be a number.',
         'any.required': 'dress_subcategory_id is required.',
     }),
 });

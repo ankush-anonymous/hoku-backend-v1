@@ -1,5 +1,6 @@
 const { google } = require("googleapis");
 const googleTokenRepository = require("../repositories/googleAuthRepository");
+const { userSignup } = require("../services/userOnboardingService");
 require("dotenv").config();
 
 const oauth2Client = new google.auth.OAuth2(
@@ -62,13 +63,14 @@ const googleAuthCallback = async (req, res) => {
 
     // Now the redirect will work because 'name' and 'picture' are defined
     if (flow === "signup") {
-      // 👇 Use the 'FRONTEND_URL' constant here
+      const ipAddress = req.ip;
+      await userSignup({ email_id: email, name, ipAddress });
       res.redirect(
-        `${FRONTEND_URL}/onboarding?email=${encodeURIComponent(
+        `${FRONTEND_URL}/dashboard?email=${encodeURIComponent(
           email
         )}&name=${encodeURIComponent(name)}&picture=${encodeURIComponent(
           picture
-        )}&flow=${flow}`
+        )}`
       );
     } else {
       // 👇 And use the 'FRONTEND_URL' constant here

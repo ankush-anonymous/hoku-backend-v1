@@ -49,15 +49,13 @@ const _addDressAndLinkToWardrobes = async ({ userId, specificWardrobeId, dressDa
  * @description Handles basic user signup with just email and password.
  * Creates a user and their default wardrobe.
  */
-const userSignup = async ({ email_id, password, ipAddress }) => {
+const userSignup = async ({ email_id, name, ipAddress }) => {
   let newUser;
   let dressesWardrobe; // Keep track of the first wardrobe in case the second fails
 
   try {
     // 1. Create the user
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const userData = { email_id, password: hashedPassword };
+    const userData = { email_id, name };
     newUser = await userRepository.createUser(userData);
 
     await UserActionsLogController.logAction({
