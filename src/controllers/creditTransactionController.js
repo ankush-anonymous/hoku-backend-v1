@@ -19,7 +19,17 @@ const getCreditTransactionsByUserId = async (req, res) => {
     }
 };
 
+const getAllTransactionsAndPaymentsByPlan = async (req, res) => {
+    try {
+        const transactions = await creditTransactionRepository.getAllTransactionsAndPaymentsByPlan();
+        res.status(200).json(transactions);
+    } catch (error) {
+        res.status(500).json({ message: "Error retrieving transactions and payments by plan", error: error.message });
+    }
+};
+
 module.exports = {
     createCreditTransaction,
     getCreditTransactionsByUserId,
+    getAllTransactionsAndPaymentsByPlan,
 };

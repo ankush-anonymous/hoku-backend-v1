@@ -3,11 +3,11 @@ const Joi = require('joi');
 // This schema validates the payload for adding a new dress.
 const addDressSchema = Joi.object({
     // The wardrobe_id is an optional, contextual field for routing the dress, not part of the schema itself.
-    wardrobe_id: Joi.string().uuid().optional(),
+    wardrobe_id: Joi.string().optional(),
 
     // --- Core Identifiers & Attributes ---
-    user_id: Joi.string().uuid().required(),
-    name: Joi.string().max(255).required(),
+    user_id: Joi.string().required(),
+    name: Joi.string().max(255).trim().required(),
     description: Joi.string().allow('', null),
 
     // --- Taxonomy & Core Category (Linked to PostgreSQL) ---
@@ -20,10 +20,10 @@ const addDressSchema = Joi.object({
     color_family: Joi.string().required(), // Added to match Mongoose schema
     color_palette: Joi.array().items(Joi.object({
         name: Joi.string(),
-        hex: Joi.string(),
+        hex: Joi.string().pattern(/^#[0-9a-fA-F]{6}$/),
         coverage: Joi.number()
     })).optional(),
-    dominant_color_hex: Joi.string().allow(null),
+    dominant_color_hex: Joi.string().pattern(/^#[0-9a-fA-F]{6}$/).allow(null),
     print_pattern: Joi.string().allow(null),
     silhouette: Joi.string().allow(null),
     garment_length: Joi.string().allow(null),
@@ -62,7 +62,7 @@ const addDressSchema = Joi.object({
 
 // This schema validates the payload for updating a dress. All fields are optional.
 const updateDressSchema = Joi.object({
-    name: Joi.string().max(255).optional(),
+    name: Joi.string().max(255).trim().optional(),
     description: Joi.string().allow('', null),
     category_id: Joi.number().integer().optional(),
     category_name: Joi.string().optional(),
@@ -71,10 +71,10 @@ const updateDressSchema = Joi.object({
     color_family: Joi.string().optional(), // Added to match Mongoose schema
     color_palette: Joi.array().items(Joi.object({
         name: Joi.string(),
-        hex: Joi.string(),
+        hex: Joi.string().pattern(/^#[0-9a-fA-F]{6}$/),
         coverage: Joi.number()
     })).optional(),
-    dominant_color_hex: Joi.string().allow(null),
+    dominant_color_hex: Joi.string().pattern(/^#[0-9a-fA-F]{6}$/).allow(null),
     print_pattern: Joi.string().allow(null),
     silhouette: Joi.string().allow(null),
     garment_length: Joi.string().allow(null),

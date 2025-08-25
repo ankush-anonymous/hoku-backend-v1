@@ -46,7 +46,35 @@ const getCreditTransactionsByUserId = async (userId) => {
     }
 };
 
+const getAllTransactionsAndPaymentsByPlan = async () => {
+    try {
+        const query = `
+            SELECT
+                p.name AS plan_name,
+                p.price,
+                p.credits_granted,
+                ct.transaction_type,
+                ct.amount,
+                ct.description,
+                ct.created_at AS transaction_date,
+                pm.status AS payment_status,
+                pm.amount AS payment_amount,
+                pm.currency AS payment_currency
+            FROM credit_transactions ct
+            JOIN payments pm ON ct.related_payment_id = pm.id
+            JOIN plans p ON pm.plan_id = p.id
+            ORDER BY p.name, ct.created_at DESC;
+        `;
+        const { rows } = await pool.query(query);
+        return rows;
+    } catch (error) {
+        console.error('[Credit Transaction Repository Error - getAllTransactionsAndPaymentsByPlan]:', error);
+        throw error;
+    }
+};
+
 module.exports = {
     createCreditTransaction,
     getCreditTransactionsByUserId,
+    getAllTransactionsAndPaymentsByPlan,
 };

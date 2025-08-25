@@ -24,13 +24,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/products",
+							"raw": "{{baseURL}}/api/v1/product/createProduct",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"products"
+								"v1",
+								"product",
+								"createProduct"
 							]
 						}
 					},
@@ -42,13 +44,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/products",
+							"raw": "{{baseURL}}/api/v1/product/getAllProducts",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"products"
+								"v1",
+								"product",
+								"getAllProducts"
 							]
 						}
 					},
@@ -60,13 +64,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/products/{{productId}}",
+							"raw": "{{baseURL}}/api/v1/product/getProductById/{{productId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"products",
+								"v1",
+								"product",
+								"getProductById",
 								"{{productId}}"
 							]
 						}
@@ -88,13 +94,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/products/{{productId}}",
+							"raw": "{{baseURL}}/api/v1/product/updateProductById/{{productId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"products",
+								"v1",
+								"product",
+								"updateProductById",
 								"{{productId}}"
 							]
 						}
@@ -107,13 +115,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/products/{{productId}}",
+							"raw": "{{baseURL}}/api/v1/product/deleteProductById/{{productId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"products",
+								"v1",
+								"product",
+								"deleteProductById",
 								"{{productId}}"
 							]
 						}
@@ -140,13 +150,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/plans",
+							"raw": "{{baseURL}}/api/v1/plan/createPlan",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"plans"
+								"v1",
+								"plan",
+								"createPlan"
 							]
 						}
 					},
@@ -158,13 +170,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/plans",
+							"raw": "{{baseURL}}/api/v1/plan/getAllPlans",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"plans"
+								"v1",
+								"plan",
+								"getAllPlans"
 							]
 						}
 					},
@@ -176,13 +190,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/plans/{{planId}}",
+							"raw": "{{baseURL}}/api/v1/plan/getPlanById/{{planId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"plans",
+								"v1",
+								"plan",
+								"getPlanById",
 								"{{planId}}"
 							]
 						}
@@ -204,13 +220,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/plans/{{planId}}",
+							"raw": "{{baseURL}}/api/v1/plan/updatePlanById/{{planId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"plans",
+								"v1",
+								"plan",
+								"updatePlanById",
 								"{{planId}}"
 							]
 						}
@@ -223,13 +241,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/plans/{{planId}}",
+							"raw": "{{baseURL}}/api/v1/plan/deletePlanById/{{planId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"plans",
+								"v1",
+								"plan",
+								"deletePlanById",
 								"{{planId}}"
 							]
 						}
@@ -256,13 +276,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/features",
+							"raw": "{{baseURL}}/api/v1/feature/createFeature",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"features"
+								"v1",
+								"feature",
+								"createFeature"
 							]
 						}
 					},
@@ -274,13 +296,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/features",
+							"raw": "{{baseURL}}/api/v1/feature/getAllFeatures",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"features"
+								"v1",
+								"feature",
+								"getAllFeatures"
 							]
 						}
 					},
@@ -292,13 +316,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/features/{{featureId}}",
+							"raw": "{{baseURL}}/api/v1/feature/getFeatureById/{{featureId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"features",
+								"v1",
+								"feature",
+								"getFeatureById",
 								"{{featureId}}"
 							]
 						}
@@ -320,13 +346,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/features/{{featureId}}",
+							"raw": "{{baseURL}}/api/v1/feature/updateFeatureById/{{featureId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"features",
+								"v1",
+								"feature",
+								"updateFeatureById",
 								"{{featureId}}"
 							]
 						}
@@ -339,13 +367,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/features/{{featureId}}",
+							"raw": "{{baseURL}}/api/v1/feature/deleteFeatureById/{{featureId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"features",
+								"v1",
+								"feature",
+								"deleteFeatureById",
 								"{{featureId}}"
 							]
 						}
@@ -372,13 +402,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/subscriptions",
+							"raw": "{{baseURL}}/api/v1/subscription",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"subscriptions"
+								"v1",
+								"subscription"
 							]
 						}
 					},
@@ -390,13 +421,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/subscriptions",
+							"raw": "{{baseURL}}/api/v1/subscription",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"subscriptions"
+								"v1",
+								"subscription"
 							]
 						}
 					},
@@ -408,13 +440,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/subscriptions/{{subscriptionId}}",
+							"raw": "{{baseURL}}/api/v1/subscription/{{subscriptionId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"subscriptions",
+								"v1",
+								"subscription",
 								"{{subscriptionId}}"
 							]
 						}
@@ -436,13 +469,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/subscriptions/{{subscriptionId}}",
+							"raw": "{{baseURL}}/api/v1/subscription/{{subscriptionId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"subscriptions",
+								"v1",
+								"subscription",
 								"{{subscriptionId}}"
 							]
 						}
@@ -455,13 +489,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/subscriptions/{{subscriptionId}}",
+							"raw": "{{baseURL}}/api/v1/subscription/{{subscriptionId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"subscriptions",
+								"v1",
+								"subscription",
 								"{{subscriptionId}}"
 							]
 						}
@@ -488,13 +523,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/payments",
+							"raw": "{{baseURL}}/api/v1/payment/createPayment",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"payments"
+								"v1",
+								"payment",
+								"createPayment"
 							]
 						}
 					},
@@ -506,13 +543,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/payments",
+							"raw": "{{baseURL}}/api/v1/payment/getAllPayments",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"payments"
+								"v1",
+								"payment",
+								"getAllPayments"
 							]
 						}
 					},
@@ -524,13 +563,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/payments/{{paymentId}}",
+							"raw": "{{baseURL}}/api/v1/payment/getPaymentById/{{paymentId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"payments",
+								"v1",
+								"payment",
+								"getPaymentById",
 								"{{paymentId}}"
 							]
 						}
@@ -552,13 +593,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/payments/{{paymentId}}",
+							"raw": "{{baseURL}}/api/v1/payment/updatePaymentById/{{paymentId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"payments",
+								"v1",
+								"payment",
+								"updatePaymentById",
 								"{{paymentId}}"
 							]
 						}
@@ -571,13 +614,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/payments/{{paymentId}}",
+							"raw": "{{baseURL}}/api/v1/payment/deletePaymentById/{{paymentId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"payments",
+								"v1",
+								"payment",
+								"deletePaymentById",
 								"{{paymentId}}"
 							]
 						}
@@ -604,13 +649,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseURL}}/api/credit-transactions",
+							"raw": "{{baseURL}}/api/v1/credit-transaction/createCreditTransaction",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"credit-transactions"
+								"v1",
+								"credit-transaction",
+								"createCreditTransaction"
 							]
 						}
 					},
@@ -622,15 +669,36 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/credit-transactions/user/{{userId}}",
+							"raw": "{{baseURL}}/api/v1/credit-transaction/getCreditTransactionsByUserId/{{userId}}",
 							"host": [
 								"{{baseURL}}"
 							],
 							"path": [
 								"api",
-								"credit-transactions",
-								"user",
+								"v1",
+								"credit-transaction",
+								"getCreditTransactionsByUserId",
 								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Transactions And Payments By Plan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/credit-transaction/getAllTransactionsAndPaymentsByPlan",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"credit-transaction",
+								"getAllTransactionsAndPaymentsByPlan"
 							]
 						}
 					},
